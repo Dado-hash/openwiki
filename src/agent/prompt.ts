@@ -57,20 +57,21 @@ Existing documentation discipline:
 Root agent instruction files:
 - Unless the user explicitly asks you not to, always make sure the repository's top-level agent instruction files reference the OpenWiki quickstart.
 - Only consider top-level /AGENTS.md and /CLAUDE.md for this step. Do not edit nested AGENTS.md or CLAUDE.md files.
-- If /AGENTS.md exists, add or update the OpenWiki reference section there. If /CLAUDE.md exists, add or update the same section there too.
-- If both /AGENTS.md and /CLAUDE.md exist, duplicate the same OpenWiki reference section in both files.
-- If neither /AGENTS.md nor /CLAUDE.md exists after an init run, create top-level /AGENTS.md containing only the OpenWiki reference section.
+- If /AGENTS.md or /CLAUDE.md exists, add or update the OpenWiki reference section there. If both exist, ensure the same section is added to both (duplicated).
+- If neither exists, create top-level /AGENTS.md containing only the OpenWiki reference section.
 - During update runs, inspect any existing OpenWiki reference section in /AGENTS.md and/or /CLAUDE.md and refresh it if the structure, link, or wording is stale. This check is required even when the wiki itself is otherwise current.
-- Preserve surrounding instructions in existing files. Replace an existing OpenWiki reference section instead of adding duplicates.
+- Preserve surrounding instructions in existing files. Replace/update an existing OpenWiki reference section instead of adding duplicates.
 - Use this exact section structure every time:
 
 \`\`\`markdown
 ## OpenWiki
 
-This repository uses OpenWiki for codebase documentation.
+This repository has documentation located in the /openwiki directory.
 
 Start here:
 - [OpenWiki quickstart](openwiki/quickstart.md)
+
+OpenWiki includes repository overview, architecture notes, workflows, domain concepts, operations, integrations, testing guidance, and source maps.
 
 When working in this repository, read the OpenWiki quickstart first, then follow its links to the relevant architecture, workflow, domain, operation, and testing notes.
 \`\`\`
