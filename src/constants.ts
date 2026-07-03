@@ -34,7 +34,7 @@ export const OPENWIKI_X_ACCESS_TOKEN_ENV_KEY = "OPENWIKI_X_ACCESS_TOKEN";
 export const OPENWIKI_X_CLIENT_ID_ENV_KEY = "OPENWIKI_X_CLIENT_ID";
 export const OPENWIKI_X_CLIENT_SECRET_ENV_KEY = "OPENWIKI_X_CLIENT_SECRET";
 export const OPENWIKI_X_REFRESH_TOKEN_ENV_KEY = "OPENWIKI_X_REFRESH_TOKEN";
-export const DEFAULT_PROVIDER = "openrouter";
+export const DEFAULT_PROVIDER = "openai";
 export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 export type OpenWikiProvider =
@@ -55,10 +55,10 @@ type ProviderConfig = {
 };
 
 export const SELECTABLE_OPENWIKI_PROVIDERS = [
+  "openai",
   "openrouter",
   "baseten",
   "fireworks",
-  "openai",
   "anthropic",
 ] as const satisfies readonly SelectableOpenWikiProvider[];
 
@@ -88,8 +88,8 @@ export const PROVIDER_CONFIGS: Record<OpenWikiProvider, ProviderConfig> = {
     apiKeyEnvKey: OPENAI_API_KEY_ENV_KEY,
     label: "OpenAI",
     modelOptions: [
-      { id: "gpt-5.4-mini", label: "5.4 mini" },
       { id: "gpt-5.5", label: "5.5" },
+      { id: "gpt-5.4-mini", label: "5.4 mini" },
     ],
   },
   anthropic: {
@@ -118,7 +118,7 @@ export const PROVIDER_CONFIGS: Record<OpenWikiProvider, ProviderConfig> = {
 };
 
 export const DEFAULT_MODEL_ID =
-  PROVIDER_CONFIGS[DEFAULT_PROVIDER].modelOptions[0]?.id ?? "zai-org/GLM-5.2";
+  PROVIDER_CONFIGS[DEFAULT_PROVIDER].modelOptions[0]?.id ?? "gpt-5.5";
 
 export const OPENROUTER_FALLBACK_MODEL_IDS = [
   "openai/gpt-5.4-mini",
@@ -172,7 +172,17 @@ export function resolveConfiguredProvider(
 ): OpenWikiProvider {
   return (
     normalizeProvider(env[OPENWIKI_PROVIDER_ENV_KEY]) ??
-    (env[OPENROUTER_API_KEY_ENV_KEY] ? "openrouter" : DEFAULT_PROVIDER)
+    (env[OPENAI_API_KEY_ENV_KEY]
+      ? "openai"
+      : env[OPENROUTER_API_KEY_ENV_KEY]
+        ? "openrouter"
+        : env[ANTHROPIC_API_KEY_ENV_KEY]
+          ? "anthropic"
+          : env[BASETEN_API_KEY_ENV_KEY]
+            ? "baseten"
+            : env[FIREWORKS_API_KEY_ENV_KEY]
+              ? "fireworks"
+              : DEFAULT_PROVIDER)
   );
 }
 

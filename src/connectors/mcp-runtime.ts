@@ -17,10 +17,7 @@ import type {
   McpConnectorConfig,
 } from "./types.js";
 
-export type McpConnectorId = Extract<
-  ConnectorId,
-  "google" | "notion" | "slack"
->;
+export type McpConnectorId = Extract<ConnectorId, "notion">;
 
 export type McpToolDiscoveryResult = {
   connectorId: McpConnectorId;
@@ -38,7 +35,7 @@ export type McpToolCallResult = {
   toolName: string;
 };
 
-const MCP_CONNECTOR_IDS = new Set<ConnectorId>(["google", "notion", "slack"]);
+const MCP_CONNECTOR_IDS = new Set<ConnectorId>(["notion"]);
 
 export function isMcpConnectorId(
   connectorId: ConnectorId,

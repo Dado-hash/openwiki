@@ -104,12 +104,12 @@ OpenWiki includes built-in connector scaffolding for local Git repositories, Not
 - `git-repo` reads configured local repository paths and writes compact manifests.
 - `x` uses the X API directly with OAuth user-context credentials for home timeline, user posts, mentions, bookmarks, and list posts.
 - `notion` targets the hosted Notion MCP server, so users should authenticate through Notion OAuth instead of pasting a Notion token into OpenWiki.
-- `google` is Gmail-first for now, with room to add Drive, Calendar, and other Google providers later.
+- `google` uses the Gmail API directly with OAuth user credentials to fetch recent mail, with room to add Drive, Calendar, and other Google providers later.
 - `slack` uses the Slack API directly with OAuth user-token credentials for self-message search, recent conversation history, DMs, and private channels visible to the user.
 
 Connector secrets are referenced by env var name and stored in `~/.openwiki/.env`; connector config files should never contain raw secret values.
 
-`openwiki auth <provider>` runs a local browser OAuth flow, saves returned tokens into `~/.openwiki/.env`, creates connector config when possible, and discovers MCP tools for MCP-backed providers. Slack and Gmail require app client credentials to already be set in that file; Notion uses dynamic client registration for hosted MCP; X uses OAuth 2.0 with PKCE.
+`openwiki auth <provider>` runs a local browser OAuth flow, saves returned tokens into `~/.openwiki/.env`, creates connector config when possible, and discovers MCP tools for MCP-backed providers. Slack and Gmail require app client credentials to already be set in that file; Notion uses dynamic client registration for hosted MCP; X uses OAuth 2.0 with PKCE. After `openwiki auth gmail`, the Google connector can ingest Gmail directly with no MCP transport setup.
 
 `openwiki auth configure <provider>` and `openwiki auth tools <provider>` are advanced/retry commands for regenerating connector config or inspecting live MCP tools.
 
@@ -118,6 +118,6 @@ notes.
 
 ## Customizing
 
-OpenWiki supports OpenRouter, Fireworks, Baseten, OpenAI and Anthropic out of the box. By default, there are a few models pre-defined (GLM 5.2, Kimi K2.6, Sonnet 5, etc) but for each inference provider, OpenWiki will allow you to specify your own custom model ID.
+OpenWiki supports OpenAI, OpenRouter, Fireworks, Baseten and Anthropic out of the box. The onboarding default is OpenAI with `gpt-5.5`, and each inference provider also includes pre-defined model options plus support for custom model IDs.
 
 If there's an inference provider or model you'd like to see added, please open a PR!

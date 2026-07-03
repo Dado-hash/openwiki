@@ -1,4 +1,5 @@
 import { createGitRepoConnector } from "./sources/git-repo.js";
+import { createGmailConnector } from "./sources/gmail.js";
 import { createMcpConnector } from "./sources/mcp.js";
 import { createSlackConnector } from "./sources/slack.js";
 import { createXConnector } from "./sources/x.js";
@@ -18,16 +19,7 @@ export function createConnectorRegistry(): Record<
 > {
   return {
     "git-repo": createGitRepoConnector(),
-    google: createMcpConnector({
-      description:
-        "Google connector focused on Gmail ingestion first, with room to add Drive, Calendar, and other Google providers later.",
-      displayName: "Google / Gmail",
-      id: "google",
-      requiredEnv: [
-        "OPENWIKI_GMAIL_ACCESS_TOKEN",
-        "OPENWIKI_GMAIL_REFRESH_TOKEN",
-      ],
-    }),
+    google: createGmailConnector(),
     notion: createMcpConnector({
       description:
         "Notion connector backed by the hosted Notion MCP server or another configured read-only MCP server.",

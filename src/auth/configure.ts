@@ -1,8 +1,5 @@
 import { chmod, readFile, writeFile } from "node:fs/promises";
-import {
-  OPENWIKI_GMAIL_ACCESS_TOKEN_ENV_KEY,
-  OPENWIKI_NOTION_MCP_ACCESS_TOKEN_ENV_KEY,
-} from "../constants.js";
+import { OPENWIKI_NOTION_MCP_ACCESS_TOKEN_ENV_KEY } from "../constants.js";
 import {
   ensureConnectorHome,
   getConnectorConfigPath,
@@ -132,17 +129,24 @@ function getDefaultConfig(provider: AuthProviderId): unknown {
 
   if (provider === "gmail") {
     return {
-      enabled: false,
-      note: "Set transport.command/args or transport.url for your Gmail MCP backend, then set enabled=true. readOnlyOperations is optional saved automation config. Gmail tokens must stay in ~/.openwiki/.env.",
+      enabled: true,
+      format: "full",
+      includeSpamTrash: false,
+      labelIds: [],
+      maxMessages: 100,
+      metadataHeaders: [
+        "From",
+        "To",
+        "Cc",
+        "Bcc",
+        "Subject",
+        "Date",
+        "Message-ID",
+      ],
+      note: "Direct Gmail API ingestion. Tokens stay in ~/.openwiki/.env. query defaults to the last day of mail.",
+      pageSize: 100,
       provider: "gmail",
-      readOnlyOperations: [],
-      transport: {
-        headers: {
-          Authorization: `Bearer \${${OPENWIKI_GMAIL_ACCESS_TOKEN_ENV_KEY}}`,
-        },
-        type: "http",
-        url: "https://gmail.googleapis.com/mcp",
-      },
+      query: "newer_than:1d",
     };
   }
 
@@ -187,8 +191,8 @@ function getNextSteps(
   if (provider === "gmail") {
     return [
       prefix,
-      "Set the Gmail MCP backend transport command/args or HTTP URL.",
-      "Set enabled=true when ready; readOnlyOperations is optional saved automation config.",
+      "Gmail direct API ingestion is enabled by default for the last day of mail.",
+      "Adjust query/maxMessages/format if you want a different ingestion window or payload size.",
     ];
   }
 

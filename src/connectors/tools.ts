@@ -41,7 +41,7 @@ export function createOpenWikiConnectorTools(): StructuredToolInterface[] {
         properties: {
           connectorId: {
             type: "string",
-            enum: ["google", "notion", "slack"],
+            enum: ["notion"],
           },
         },
         required: ["connectorId"],
@@ -65,7 +65,7 @@ export function createOpenWikiConnectorTools(): StructuredToolInterface[] {
           },
           connectorId: {
             type: "string",
-            enum: ["google", "notion", "slack"],
+            enum: ["notion"],
           },
           toolName: {
             type: "string",
