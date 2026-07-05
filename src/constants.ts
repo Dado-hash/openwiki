@@ -83,6 +83,7 @@ export const PROVIDER_CONFIGS: Record<OpenWikiProvider, ProviderConfig> = {
   },
   opencode: {
     apiKeyEnvKey: OPENCODE_API_KEY_ENV_KEY,
+    baseURL: "http://127.0.0.1:4096",
     label: "OpenCode",
     modelOptions: [
       { id: "opencode/big-pickle", label: "Big Pickle" },

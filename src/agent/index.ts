@@ -399,15 +399,15 @@ async function createModel(provider: OpenWikiProvider, modelId: string, cwd?: st
     });
   }
 
+  const providerConfig = getProviderConfig(provider);
+
   if (provider === "opencode") {
     return new OpenCodeModel(
-      "http://127.0.0.1:4096",
+      providerConfig.baseURL ?? "http://127.0.0.1:4096",
       cwd ?? process.cwd(),
       modelId,
     );
   }
-
-  const providerConfig = getProviderConfig(provider);
 
   return new ChatOpenAI({
     apiKey: process.env[getProviderApiKeyEnvKey(provider)],

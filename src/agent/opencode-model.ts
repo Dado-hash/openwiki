@@ -11,6 +11,7 @@ import { CallbackManagerForLLMRun } from "@langchain/core/callbacks/manager";
 import type { Runnable } from "@langchain/core/runnables";
 import { createOpencodeClient } from "@opencode-ai/sdk";
 import type { Part } from "@opencode-ai/sdk";
+import { OPENCODE_API_KEY_ENV_KEY } from "../constants.js";
 
 export class OpenCodeModel extends BaseChatModel {
   private clientPromise: ReturnType<typeof createOpencodeClient> | null = null;
@@ -29,6 +30,7 @@ export class OpenCodeModel extends BaseChatModel {
     if (!this.clientPromise) {
       this.clientPromise = createOpencodeClient({
         baseUrl: this.baseUrl,
+        auth: process.env[OPENCODE_API_KEY_ENV_KEY],
       });
     }
     return this.clientPromise;
