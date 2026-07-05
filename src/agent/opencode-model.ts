@@ -72,6 +72,7 @@ export class OpenCodeModel extends BaseChatModel {
       body: {
         parts,
         noReply: false,
+        tools: {},
         ...(system ? { system } : {}),
       },
     });
