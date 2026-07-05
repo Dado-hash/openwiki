@@ -67,20 +67,11 @@ export class OpenCodeModel extends BaseChatModel {
       }
     }
 
-    const slashIdx = this.modelId.indexOf("/");
-    const model =
-      slashIdx >= 0
-        ? {
-            providerID: this.modelId.slice(0, slashIdx),
-            modelID: this.modelId.slice(slashIdx + 1),
-          }
-        : undefined;
-
     const promptResp = await client.session.prompt({
       path: { id: sessionId },
       body: {
         parts,
-        ...(model ? { model } : {}),
+        noReply: false,
         ...(system ? { system } : {}),
       },
     });
